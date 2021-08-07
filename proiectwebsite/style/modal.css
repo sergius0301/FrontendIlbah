@@ -1,0 +1,17 @@
+
+@media only screen and (min-width: 600px){
+    .pop-up-modal {
+        top: 2%;
+        left: 30%;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .pop-up-modal {
+        top: 10%;
+    }
+}
+.modal-backdrop.show {
+    opacity: 0;
+    z-index: -1;
+}
