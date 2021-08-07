@@ -92,6 +92,7 @@ class HttpService {
     getProductbyId(id){
         return fetch(`https://ilbahtraining.azurewebsites.net/api/Product/${id}`, this.getHeaderWithToken('GET'))
                 .then(response => response.json())
+                
     }
     addRating(productId, rating){
         let token = localStorage.getItem('token');

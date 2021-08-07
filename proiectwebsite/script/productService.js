@@ -47,6 +47,7 @@ class ProductService{ // var productService = new ProductService();
                 <i class="bi bi-heart" onclick="addToFavorites(${product.id})"> favorite</i>
             </div>`
          });
+         
          return concatenatedProducts;
     }
 
