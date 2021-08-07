@@ -14,9 +14,11 @@ class ProductService{ // var productService = new ProductService();
             concatenatedProducts += 
             `
             <div class="col-3 border m-2">
+                <img onclick="openProduct(${product.id})" class="w-100" src="${product.productUrl}"/>
                 <p>${product.name}</p>
                 <p>${product.description}</p>
-                <p>${product.price}</p>
+                <p><del>${product.price}</del></p>
+                <p>${product.discountPrice}</p>
                 <i class="bi bi-trash" onclick="removeProduct(${product.id})"> remove</i></br>
                 <i class="bi bi-arrows-fullscreen" onclick="openProduct(${product.id})"> show</i></br>
                 <i class="bi bi-brush" onclick="updateProductById(${product.id})"> update</i></br>
@@ -37,9 +39,11 @@ class ProductService{ // var productService = new ProductService();
             concatenatedProducts += 
             `
             <div class="col-3 border m-2">
+                <img onclick="openProduct(${product.id})" class="w-100" src="${product.productUrl}"/>
                 <p>${product.name}</p>
                 <p>${product.description}</p>
-                <p>${product.price}</p>
+                <p><del>${product.price}</del></p>
+                <p>${product.discountPrice}</p>
                 <i class="bi bi-trash" onclick="removeProduct(${product.id})"> remove</i></br>
                 <i class="bi bi-arrows-fullscreen" onclick="openProduct(${product.id})"> show</i></br>
                 <i class="bi bi-brush" onclick="updateProductById(${product.id})"> update</i></br>
@@ -47,19 +51,32 @@ class ProductService{ // var productService = new ProductService();
                 <i class="bi bi-heart" onclick="addToFavorites(${product.id})"> favorite</i>
             </div>`
          });
-         
+
          return concatenatedProducts;
     }
 
     getFormatedProduct(product){
         if(product){
             return  `
-            <p>${product.name}</p>
-            <p>${product.description}</p>
-            <p>${product.price}</p>
-            ${this.getNumberOfStars(product)}
+                <img class="w-100" src="${product.productUrl}"/>
+                <p>${product.name}</p>
+                <p>${product.description}</p>
+                <p><del>${product.price}</del></p>
+                <p>${product.discountPrice}</p>
+                ${this.getNumberOfStars(product)}
+                <div>${this.getReviews(product)}</div>
             `;
         }
+    }
+    getReviews(product){
+        let reviews = '';
+        product.reviews.forEach(review => {
+            reviews += `
+                <h4>${review.title}</h4>
+                <p>${review.description}</p>
+            `;
+        })
+        return reviews;
     }
     getNumberOfStars(product){
         let concatenatedStars ='';

@@ -99,6 +99,8 @@ function setProductDetails(){
          document.getElementById('nameId').value = product.name; 
          document.getElementById('descriptionId').value = product.description; 
          document.getElementById('priceId').value = product.price; 
+         document.getElementById('productUrlId').value = product.productUrl;
+         document.getElementById('dicountPriceId').value = product.discountPrice;
         })
         .catch(error => {
             commonService.showInfoMessage(error);
@@ -109,8 +111,9 @@ function updateProduct(){
       let description =  document.getElementById('descriptionId').value; 
       let price =  document.getElementById('priceId').value; 
       let productId = commonService.getFromStorage('updateProductId');
-
-      let product = {"id": Number(productId),"name": name, "description": description, "price": price};
+      let productUrl =  document.getElementById('productUrlId').value; 
+      let discountPrice = document.getElementById('dicountPriceId').value;
+      let product = {"id": Number(productId),"name": name, "description": description, "price": price, "productUrl": productUrl, "discountPrice": discountPrice};
 
       httpService.updateProduct(product);
 }
@@ -202,6 +205,16 @@ function addProduct(){
    let name = document.getElementById('nameId').value; 
    let description =  document.getElementById('descriptionId').value; 
    let price =  document.getElementById('priceId').value; 
+   let discountPrice =  document.getElementById('discountedPricedId').value; 
+   let productUrl =  document.getElementById('productUrlId').value; 
 
-   httpService.addProduct(name, description, price);
+   httpService.addProduct(name, description, price, discountPrice, productUrl);
+}
+function addReview(){
+   let productId = commonService.getFromStorage('productId');
+
+   let title = $("#titleId").val();
+   let description = $("#descriptionId").val();
+
+   httpService.addReview(title, description, productId);
 }

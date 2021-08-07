@@ -46,9 +46,9 @@ class HttpService {
             commonService.showInfoMessage(error);
         });
     }
-    addProduct(name, description, price){
+    addProduct(name, description, price, discountPrice, productUrl){
 
-        let body = {"name": name, "description": description, "price": price};
+        let body = {"name": name, "description": description, "price": price, "discountPrice": discountPrice, "productUrl": productUrl};
 
         fetch("https://ilbahtraining.azurewebsites.net/api/Product", this.getHeaderWithTokenAndBody(body, 'POST'))
         .then(response => response.text())
@@ -106,7 +106,7 @@ class HttpService {
                 .then(response => response.json())
     }
     updateProduct(product){
-        fetch("https://ilbahtraining.azurewebsites.net/api/Product", this.getHeaderWithToken(product, 'PUT'))
+        fetch("https://ilbahtraining.azurewebsites.net/api/Product", this.getHeaderWithTokenAndBody(product, 'PUT'))
         .then(response => response.text())
         .then(result => {
             commonService.showInfoMessage(result);
@@ -140,5 +140,18 @@ class HttpService {
             method: method,
             headers: myHeaders,
         };
+    }
+    addReview(title, description, productId){
+        let body = {"title": title, "description": description};
+
+        fetch(`https://ilbahtraining.azurewebsites.net/api/review?id=${productId}`, this.getHeaderWithTokenAndBody(body, "POST"))
+        .then(response => response.text())
+        .then(result => {
+            commonService.showInfoMessage(result);
+            location.reload();
+        })
+        .catch(error => {
+            commonService.showInfoMessage(error);
+        });
     }
 }
