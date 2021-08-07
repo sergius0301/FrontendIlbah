@@ -2,23 +2,9 @@ class HttpService {
     commonService = new CommonService();
     productService = new ProductService();
 
-    register(email, password){
-        //adaugam header
-        let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        //adaugam body
-        let bodyJson = JSON.stringify({"email": email, "password": password});
-
-        //adaugam requestOptions
-        let requestOption ={
-            method: 'POST',
-            headers: myHeaders,
-            body: bodyJson
-        };
-
+    register(profile){
         //facem call-ul catre backend
-        fetch("https://ilbahtraining.azurewebsites.net/register", requestOption)
+        fetch("https://ilbahtraining.azurewebsites.net/register", this.getHeaderWithTokenAndBody(profile, 'POST'))
         .then(response => response.text())
         .then(token => {
             window.commonService.setToStorage('token', token);
@@ -92,7 +78,7 @@ class HttpService {
     getProductbyId(id){
         return fetch(`https://ilbahtraining.azurewebsites.net/api/Product/${id}`, this.getHeaderWithToken('GET'))
                 .then(response => response.json())
-                
+
     }
     addRating(productId, rating){
         let token = localStorage.getItem('token');
@@ -114,6 +100,10 @@ class HttpService {
         .catch(error => {
             commonService.showInfoMessage(error);
         });
+    }
+    getProfile(){
+        return fetch(`https://ilbahtraining.azurewebsites.net/profile`, this.getHeaderWithToken('GET'))
+                .then(response => response.json())
     }
     updateProduct(product){
         fetch("https://ilbahtraining.azurewebsites.net/api/Product", this.getHeaderWithToken(product, 'PUT'))

@@ -30,12 +30,13 @@ function register(){
    //colectam datele din inputuri
    let name =  $('#nameId').val();
    let email = $('#emailId').val();
+   let age = Number($('#ageId').val());
+   let gender = $('#genderId').val();
    let password = $('#passwordId').val();
 
-   let profile = JSON.stringify({"email": email, "name": name});
-   commonService.setToStorage("userProfile", profile);
+   let profile = {"email": email, "name": name, "age": age, "gender": gender, "password": password};
 
-   httpService.register(email, password);
+   httpService.register(profile);
 }
 function showProducts(){
    let promise = httpService.getProducts();
@@ -49,10 +50,15 @@ function showProducts(){
   });
 }
 function showProfile(){
-   let profile = commonService.getFromStorage('userProfile');
-   let response = userService.getFormatedProfileDetail(JSON.parse(profile));
+   httpService.getProfile()
+   .then(profile => {
+      let response = userService.getFormatedProfileDetail(profile);
    
-   document.getElementById('myprofileId').innerHTML = response;
+      document.getElementById('myprofileId').innerHTML = response;
+   })
+   .catch(error => {
+         commonService.showInfoMessage(error);
+   });
 }
 function removeProduct(id){
    httpService.deleteProductById(id);
